@@ -6,9 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@ToString
-@Getter
-@Setter
 @Table(name = "participation_request")
 public class ParticipationRequest {
     @Id
@@ -23,4 +20,46 @@ public class ParticipationRequest {
     @ManyToOne
     @JoinColumn(name = "party_id")
     private Party party;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Party getParty() {
+        return party;
+    }
+
+    public void setParty(Party party) {
+        this.party = party;
+    }
+
+    @Override
+    public String toString() {
+        return "ParticipationRequest{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", users=" + users +
+                ", party=" + party +
+                '}';
+    }
 }
