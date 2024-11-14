@@ -23,6 +23,4 @@ public class ParticipationRequest {
     @ManyToOne
     @JoinColumn(name = "party_id")
     private Party party;
-
-    // Getters and Setters
 }
