@@ -2,6 +2,7 @@ package fr.projet.duo.optimisation.DTO;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.projet.duo.optimisation.Entity.PartyType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +35,7 @@ public class PartyDTO {
     @ToStringExclude
     private List<ParticipationRequestDTO> participationRequests=new ArrayList<>();
 
-    private String partyType;
+    private PartyTypeDTO partyType;
     private UsersDTO organizer;
 
 
