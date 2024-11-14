@@ -23,5 +23,4 @@ public class Interest {
     @ManyToMany(mappedBy = "interests")
     private List<Users> users;
 
-    // Getters and Setters
 }

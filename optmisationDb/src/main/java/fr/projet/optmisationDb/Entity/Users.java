@@ -17,25 +17,28 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String surname;
+    @Column(unique = true)
+    private String username;
     private String email;
     private int age;
     private float rating;
     private String city;
     private String password;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "users")
     private List<Notification> notifications;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "users_interest",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "interest_id"))
+    @ManyToMany
+    @JoinTable(name = "users_interest")
     private List<Interest> interests;
 
-    @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL)
-    private List<Party> parties;
+    @ManyToMany(mappedBy = "participant")
+    private List<Party> party;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "users")
     private List<ParticipationRequest> participationRequests;
 
+    @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
+    private List<Party> organizedParties;
 }

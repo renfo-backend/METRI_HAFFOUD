@@ -24,10 +24,8 @@ public class Party {
     private float price;
 
     @ManyToMany
-    @JoinTable(name = "party_participants",
-            joinColumns = @JoinColumn(name = "party_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<Users> participants;
+    @JoinTable(name = "party_participants")
+    private List<Users> participant;
 
     @OneToMany(mappedBy = "party")
     private List<Message> messages;
@@ -38,6 +36,10 @@ public class Party {
     @ManyToOne
     @JoinColumn(name = "party_type_id")
     private PartyType partyType;
+
+    @ManyToOne
+    @JoinColumn(name = "organizer_id")
+    private Users organizer;
 
     // Getters and Setters
 }
