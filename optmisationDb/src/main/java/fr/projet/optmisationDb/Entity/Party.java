@@ -18,7 +18,9 @@ public class Party {
     private Long id;
     private String name;
     private String location;
-    private String date_party;
+    @Column(name = "date_party")
+    private String dateParty;
+
     private int capacity;
     private boolean isPaid;
     private float price;
@@ -40,6 +42,7 @@ public class Party {
     @ManyToOne
     @JoinColumn(name = "organizer_id")
     private Users organizer;
+
 
     // Getters and Setters
 }
