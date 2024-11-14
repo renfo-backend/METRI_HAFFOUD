@@ -1,24 +1,19 @@
-package fr.projet.optmisationDb.Entity;
+package fr.projet.optmisationDb.DTO;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import fr.projet.optmisationDb.Entity.Users;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-@Entity
+public class NotificationDTO {
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
 
-@Table(name = "notification")
-public class Notification {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String message;
     private boolean isRead;
 
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private Users users;
 
+    private UsersDTO users;
 
     public Long getId() {
         return id;
@@ -44,23 +39,21 @@ public class Notification {
         isRead = read;
     }
 
-    public Users getUsers() {
+    public UsersDTO getUsers() {
         return users;
     }
 
-    public void setUsers(Users users) {
+    public void setUsers(UsersDTO users) {
         this.users = users;
     }
 
     @Override
     public String toString() {
-        return "Notification{" +
+        return "NotificationDTO{" +
                 "id=" + id +
                 ", message='" + message + '\'' +
                 ", isRead=" + isRead +
                 ", users=" + users +
                 '}';
     }
-
-    // Getters and Setters
 }

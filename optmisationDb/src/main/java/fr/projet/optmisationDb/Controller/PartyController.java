@@ -18,7 +18,7 @@ public class PartyController {
     public List<PartyDTO> getWithFilter(
             @RequestParam(required = false, defaultValue = "0") Integer capacity,
             @RequestParam(required = false, defaultValue = "") String location,
-            @RequestParam(required = false, defaultValue = "PUBLIC") String partyType,
+            @RequestParam(required = false, defaultValue = "") String partyType,
             @RequestParam(required = false, defaultValue = "false") Boolean isPaid,
             @RequestParam(required = false, defaultValue = "") String dateParty) {
         return partyService.getWithFilter(capacity, location, partyType, isPaid, dateParty);
