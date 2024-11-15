@@ -12,8 +12,8 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {UsersMapper.class, MessageMapper.class, ParticipationRequestMapper.class})
 public interface PartyMapper {
 
-    PartyDTO toDTO(Party party,@Context CycleAvoidingMappingContext context);
-    List<PartyDTO> toDTOs(List<Party> parties, @Context CycleAvoidingMappingContext context);
-    Party toEntity(PartyDTO partyDTO,@Context CycleAvoidingMappingContext context);
+    PartyDTO toDTO(Party party);
+    List<PartyDTO> toDTOs(List<Party> parties);
+    Party toEntity(PartyDTO partyDTO);
     List<Party> toEntities(List<PartyDTO> partyDTOs,@Context CycleAvoidingMappingContext context);
 }

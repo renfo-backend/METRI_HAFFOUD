@@ -45,6 +45,7 @@ public class Party {
     @ToString.Exclude
     private Users organizer;
 
-    private String partyType;
-
+    @ManyToOne
+    @JoinColumn(name = "party_type_id")
+    private PartyType partyType;
 }
