@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "party")
 public class Party {
     @Id
@@ -33,8 +34,9 @@ public class Party {
     private boolean isPublished;
 
     @ManyToMany
-    @JoinTable(name = "party_participants")
-    @ToString.Exclude
+    @JoinTable(name = "party_participant",
+            joinColumns = @JoinColumn(name = "party_id"),
+            inverseJoinColumns = @JoinColumn(name = "participant_id"))
     private List<Users> participant = new ArrayList<>();
 
     @OneToMany(mappedBy = "party")
@@ -47,7 +49,6 @@ public class Party {
 
     @ManyToOne
     @JoinColumn(name = "organizer_id")
-    @ToString.Exclude
     private Users organizer;
 
     @ManyToOne

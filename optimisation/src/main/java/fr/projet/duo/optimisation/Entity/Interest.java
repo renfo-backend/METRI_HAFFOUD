@@ -20,9 +20,10 @@ public class Interest {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "interests")
-    @JsonIgnore
-    @ToStringExclude
+    @ManyToMany
+    @JoinTable(name = "users_interests",
+            joinColumns = @JoinColumn(name = "interest_id"),
+            inverseJoinColumns = @JoinColumn(name = "users_id"))
     private List<Users> users;
 
 

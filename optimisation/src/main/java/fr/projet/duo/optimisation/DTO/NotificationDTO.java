@@ -20,9 +20,4 @@ public class NotificationDTO {
     private String message;
     private boolean isRead;
 
-    @ToStringExclude
-    @JsonIgnore
-    private UsersDTO users;
-
-
 }

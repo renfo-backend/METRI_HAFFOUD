@@ -18,9 +18,4 @@ public class InterestDTO {
     private String name;
     private String description;
 
-    @JsonIgnore
-    @ToStringExclude
-    private List<UsersDTO> users;
-
-
 }

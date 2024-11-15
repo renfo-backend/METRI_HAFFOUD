@@ -2,33 +2,28 @@ package fr.projet.duo.optimisation.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
     private Long id;
     private String location;
     private String street;
 
     @OneToMany(mappedBy = "address")
-    @JsonIgnore
-    @ToStringExclude
     private List<Users> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "address")
-    @JsonIgnore
-    @ToStringExclude
     private List<Party> parties = new ArrayList<>();
 }
