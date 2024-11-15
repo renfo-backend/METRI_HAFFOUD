@@ -16,4 +16,6 @@ public interface PartyMapper {
     List<PartyDTO> toDTOs(List<Party> parties);
     Party toEntity(PartyDTO partyDTO);
     List<Party> toEntities(List<PartyDTO> partyDTOs,@Context CycleAvoidingMappingContext context);
+
+
 }
