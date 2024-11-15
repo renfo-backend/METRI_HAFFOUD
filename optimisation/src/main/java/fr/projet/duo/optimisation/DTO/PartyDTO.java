@@ -20,13 +20,12 @@ public class PartyDTO {
 
     private Long id;
     private String name;
-    private String location;
+    private AddressDTO address;
     private String dateParty;
     private int capacity;
     private boolean isPaid;
     private float price;
-    @JsonIgnore
-    @ToStringExclude
+    private boolean isPublished;
     private List<UsersDTO> participant=new ArrayList<>();
     @JsonIgnore
     @ToStringExclude

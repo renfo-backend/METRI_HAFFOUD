@@ -25,18 +25,16 @@ public class UsersDTO {
 
     private String username;
     private String email;
+    private AddressDTO address;
     private String name;
     private String surname;
     private int age;
     private float rating;
     private String city;
+    @Schema(hidden = true)
     private String password;
 
-    @ToStringExclude
-    @JsonIgnore
     private List<NotificationDTO> notifications = new ArrayList<>();
-    @JsonIgnore
-    @ToStringExclude
     private List<InterestDTO> interests = new ArrayList<>();
     @JsonIgnore
     @ToStringExclude

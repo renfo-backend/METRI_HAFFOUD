@@ -2,6 +2,7 @@ package fr.projet.duo.optimisation.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -14,10 +15,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "users_id")
     private Long id;
     private String name;
     private String surname;
@@ -34,14 +37,12 @@ public class Users {
     private List<Notification> notifications = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(name = "users_interest")
-    @JsonIgnore
-    @ToStringExclude
+    @JoinTable(name = "users_interests",
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "interest_id"))
     private List<Interest> interests = new ArrayList<>();
 
     @ManyToMany(mappedBy = "participant")
-    @JsonIgnore
-    @ToStringExclude
     private List<Party> party = new ArrayList<>();
 
     @OneToMany(mappedBy = "users")
@@ -49,6 +50,10 @@ public class Users {
 
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
     private List<Party> organizedParties = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
 
 }

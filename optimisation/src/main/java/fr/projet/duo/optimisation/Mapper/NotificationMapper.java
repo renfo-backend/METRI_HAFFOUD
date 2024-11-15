@@ -13,10 +13,9 @@ public interface NotificationMapper {
 
     NotificationMapper INSTANCE = Mappers.getMapper(NotificationMapper.class);
 
-    @Mapping(target = "users.notifications", ignore = true) // Pour éviter les références circulaires entre Notification et Users
+    // Mapping pour éviter les références circulaires entre Notification et Users
     NotificationDTO toDTO(Notification notification);
 
-    @Mapping(target = "users.notifications", ignore = true) // Pour éviter les références circulaires entre Notification et Users
     Notification toEntity(NotificationDTO notificationDTO);
 
     List<NotificationDTO> toDTOs(List<Notification> notifications);

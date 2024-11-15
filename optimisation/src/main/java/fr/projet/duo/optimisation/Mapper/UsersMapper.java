@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {InterestMapper.class})
+@Mapper(componentModel = "spring", uses = {InterestMapper.class,AddressMapper.class,NotificationMapper.class,PartyMapper.class})
 public interface UsersMapper {
 
     UsersMapper INSTANCE = Mappers.getMapper(UsersMapper.class);
@@ -19,6 +19,7 @@ public interface UsersMapper {
     @Mapping(target = "party", ignore = true)
     @Mapping(target = "participationRequests", ignore = true)
     @Mapping(target = "organizedParties", ignore = true)
+    @Mapping(target = "address", ignore = true)
     UsersDTO userToUserDTO(Users users);
 
     @Mapping(target = "interests", ignore = true) // Ignorer pour éviter la récursion
@@ -26,6 +27,7 @@ public interface UsersMapper {
     @Mapping(target = "party", ignore = true)
     @Mapping(target = "participationRequests", ignore = true)
     @Mapping(target = "organizedParties", ignore = true)
+    @Mapping(target = "address", ignore = true)
     List<UsersDTO> usersToUsersDTO(List<Users> users);
 
     @Mapping(target = "interests", ignore = true)
@@ -33,7 +35,10 @@ public interface UsersMapper {
     @Mapping(target = "party", ignore = true)
     @Mapping(target = "participationRequests", ignore = true)
     @Mapping(target = "organizedParties", ignore = true)
+    @Mapping(target = "address", ignore = true)
     Users UsersDTOToUsers(UsersDTO usersDTO);
 
     List<Users> UsersDTOToUsers(List<UsersDTO> usersDTO);
+
+    Users UsersDTOToUsers(String organizer);
 }
