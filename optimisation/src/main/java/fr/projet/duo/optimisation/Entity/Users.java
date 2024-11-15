@@ -36,12 +36,12 @@ public class Users {
     @ManyToMany
     @JoinTable(name = "users_interest")
     @JsonIgnore
-    @ToStringExclude
+    @ToString.Exclude
     private List<Interest> interests = new ArrayList<>();
 
     @ManyToMany(mappedBy = "participant")
     @JsonIgnore
-    @ToStringExclude
+    @ToString.Exclude
     private List<Party> party = new ArrayList<>();
 
     @OneToMany(mappedBy = "users")

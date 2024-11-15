@@ -22,7 +22,7 @@ public class Interest {
 
     @ManyToMany(mappedBy = "interests")
     @JsonIgnore
-    @ToStringExclude
+    @ToString.Exclude
     private List<Users> users;
 
 

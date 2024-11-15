@@ -27,7 +27,8 @@ public class SecurityConfig {
                         "/auth/**",
                         "/party/**",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**",   "/swagger-ui/",      // Autoriser l'accès à toutes les ressources de swagger-ui
+                        "/v3/api-docs/**",
+                        "/swagger-ui/",
                         "/v3/api-docs/",
                         "/swagger-resources/",
                         "/webjars/",

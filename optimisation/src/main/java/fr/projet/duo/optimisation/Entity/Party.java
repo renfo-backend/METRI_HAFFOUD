@@ -39,7 +39,7 @@ public class Party {
 
     @OneToMany(mappedBy = "party")
     @JsonIgnore
-    @ToStringExclude
+    @ToString.Exclude
     private List<Message> messages = new ArrayList<>();
 
     @OneToMany(mappedBy = "party")

@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 @Data
@@ -20,7 +21,7 @@ public class NotificationDTO {
     private String message;
     private boolean isRead;
 
-    @ToStringExclude
+    @ToString.Exclude
     @JsonIgnore
     private UsersDTO users;
 

@@ -24,11 +24,6 @@ public class Address {
 
     @OneToMany(mappedBy = "address")
     @JsonIgnore
-    @ToStringExclude
+    @ToString.Exclude
     private List<Users> users = new ArrayList<>();
-
-    @OneToMany(mappedBy = "address")
-    @JsonIgnore
-    @ToStringExclude
-    private List<Party> parties = new ArrayList<>();
 }
