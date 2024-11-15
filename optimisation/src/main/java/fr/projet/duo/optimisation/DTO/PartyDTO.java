@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 import java.util.ArrayList;
@@ -21,22 +20,18 @@ public class PartyDTO {
 
     private Long id;
     private String name;
-    @JsonIgnore
-    @ToString.Exclude
-    private AddressDTO location;
+    private AddressDTO address;
     private String dateParty;
     private int capacity;
     private boolean isPaid;
     private float price;
     private boolean isPublished;
-    @JsonIgnore
-    @ToString.Exclude
     private List<UsersDTO> participant=new ArrayList<>();
     @JsonIgnore
-    @ToString.Exclude
+    @ToStringExclude
     private List<MessageDTO> messages=new ArrayList<>();
     @JsonIgnore
-    @ToString.Exclude
+    @ToStringExclude
     private List<ParticipationRequestDTO> participationRequests=new ArrayList<>();
 
     private PartyTypeDTO partyType;

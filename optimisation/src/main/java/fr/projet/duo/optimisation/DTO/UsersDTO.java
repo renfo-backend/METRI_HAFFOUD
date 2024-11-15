@@ -10,7 +10,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 import java.util.ArrayList;
@@ -26,8 +25,6 @@ public class UsersDTO {
 
     private String username;
     private String email;
-    @JsonIgnore
-    @ToString.Exclude
     private AddressDTO address;
     private String name;
     private String surname;
@@ -37,20 +34,16 @@ public class UsersDTO {
     @Schema(hidden = true)
     private String password;
 
-    @ToString.Exclude
-    @JsonIgnore
     private List<NotificationDTO> notifications = new ArrayList<>();
-    @JsonIgnore
-    @ToString.Exclude
     private List<InterestDTO> interests = new ArrayList<>();
     @JsonIgnore
-    @ToString.Exclude
+    @ToStringExclude
     private List<PartyDTO> party = new ArrayList<>();
     @JsonIgnore
-    @ToString.Exclude
+    @ToStringExclude
     private List<ParticipationRequestDTO> participationRequests = new ArrayList<>();
     @JsonIgnore
-    @ToString.Exclude
+    @ToStringExclude
     private List<PartyDTO> organizedParties = new ArrayList<>();
 
 

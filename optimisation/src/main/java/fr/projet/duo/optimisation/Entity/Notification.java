@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "notification")
@@ -17,9 +18,7 @@ public class Notification {
     private boolean isRead;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "users_id")
-    @ToString.Exclude
     private Users users;
 
 
