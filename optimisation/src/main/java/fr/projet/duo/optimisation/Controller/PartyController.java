@@ -1,6 +1,5 @@
 package fr.projet.duo.optimisation.Controller;
 import fr.projet.duo.optimisation.DTO.PartyDTO;
-import fr.projet.duo.optimisation.Entity.BoardGamesPartyType;
 import fr.projet.duo.optimisation.Entity.Request.BoardGamesPartyRequest;
 import fr.projet.duo.optimisation.Entity.Request.ClassicPartyRequest;
 import fr.projet.duo.optimisation.Entity.Request.LanPartyRequest;

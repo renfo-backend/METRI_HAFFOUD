@@ -4,10 +4,10 @@ services:
     environment:
       MYSQL_DATABASE: 'party'
       MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'motdepasse'
-      MYSQL_ROOT_PASSWORD: 'motdepasse_root'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - my_db_volume:/var/lib/mysql
 

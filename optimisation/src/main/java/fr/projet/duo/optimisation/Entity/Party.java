@@ -30,6 +30,7 @@ public class Party {
     private int capacity;
     private boolean isPaid;
     private float price;
+    private boolean isPublished;
 
     @ManyToMany
     @JoinTable(name = "party_participants")

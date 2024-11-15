@@ -27,6 +27,7 @@ public class PartyDTO {
     private int capacity;
     private boolean isPaid;
     private float price;
+    private boolean isPublished;
     @JsonIgnore
     @ToStringExclude
     private List<UsersDTO> participant=new ArrayList<>();

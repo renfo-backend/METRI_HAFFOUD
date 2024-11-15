@@ -15,6 +15,7 @@ public interface PartyRepository extends JpaRepository<Party, Long> {
             "p.capacity >= :capacity AND " +
             "p.address.location LIKE %:location% AND " +
             "(:isPaid IS NULL OR p.isPaid = :isPaid) AND " +
+            "p.isPublished = true AND " +
             "p.dateParty LIKE %:dateParty%" +
             " AND " + "(:partyType IS NULL OR p.partyType.name LIKE %:partyType%)" +
             "")
