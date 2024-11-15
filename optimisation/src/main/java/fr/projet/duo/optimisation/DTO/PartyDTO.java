@@ -20,7 +20,9 @@ public class PartyDTO {
 
     private Long id;
     private String name;
-    private String location;
+    @JsonIgnore
+    @ToStringExclude
+    private AddressDTO location;
     private String dateParty;
     private int capacity;
     private boolean isPaid;

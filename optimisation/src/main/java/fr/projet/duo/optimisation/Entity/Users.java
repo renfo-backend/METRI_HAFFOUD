@@ -50,5 +50,9 @@ public class Users {
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
     private List<Party> organizedParties = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
 
 }

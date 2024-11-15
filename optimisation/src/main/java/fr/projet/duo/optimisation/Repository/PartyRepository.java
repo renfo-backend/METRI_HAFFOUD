@@ -13,7 +13,7 @@ public interface PartyRepository extends JpaRepository<Party, Long> {
 
     @Query("SELECT p FROM Party p WHERE " +
             "p.capacity >= :capacity AND " +
-            "p.location LIKE %:location% AND " +
+            "p.address.location LIKE %:location% AND " +
             "(:isPaid IS NULL OR p.isPaid = :isPaid) AND " +
             "p.dateParty LIKE %:dateParty%" +
             " AND " + "(:partyType IS NULL OR p.partyType.name LIKE %:partyType%)" +

@@ -25,11 +25,15 @@ public class UsersDTO {
 
     private String username;
     private String email;
+    @JsonIgnore
+    @ToStringExclude
+    private AddressDTO address;
     private String name;
     private String surname;
     private int age;
     private float rating;
     private String city;
+    @Schema(hidden = true)
     private String password;
 
     @ToStringExclude

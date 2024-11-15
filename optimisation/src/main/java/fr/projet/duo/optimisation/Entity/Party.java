@@ -1,6 +1,7 @@
 package fr.projet.duo.optimisation.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.projet.duo.optimisation.DTO.AddressDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -19,7 +20,10 @@ public class Party {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String location;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @Column(name = "date_party")
     private String dateParty;

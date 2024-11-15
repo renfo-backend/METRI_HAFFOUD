@@ -36,4 +36,6 @@ public interface UsersMapper {
     Users UsersDTOToUsers(UsersDTO usersDTO);
 
     List<Users> UsersDTOToUsers(List<UsersDTO> usersDTO);
+
+    Users UsersDTOToUsers(String organizer);
 }
