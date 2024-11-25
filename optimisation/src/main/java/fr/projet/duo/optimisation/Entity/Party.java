@@ -34,7 +34,7 @@ public class Party {
     private boolean isPublished;
 
     @ManyToMany
-    @JoinTable(name = "party_participant",
+    @JoinTable(name = "party_participants",
             joinColumns = @JoinColumn(name = "party_id"),
             inverseJoinColumns = @JoinColumn(name = "participant_id"))
     private List<Users> participant = new ArrayList<>();
