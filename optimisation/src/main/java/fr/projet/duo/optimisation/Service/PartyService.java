@@ -44,6 +44,32 @@ public class PartyService {
         this.lanPartyDetailsMapper = lanPartyDetailsMapper;
     }
 
+    public PartyDTO createParty(PartyDTO partyDTO) {
+        // Vérifier que l'organisateur existe
+        Users organizer = usersRepository.findById(partyDTO.getOrganizer().getId())
+                .orElseThrow(() -> new RuntimeException("Organisateur non trouvé"));
+
+        // Mapper PartyDTO vers une entité Party
+        Party party = partyMapper.toEntity(partyDTO);
+
+        // Associer l'organisateur
+        party.setOrganizer(organizer);
+
+        // Gérer le type de fête
+        if (partyDTO.getPartyType() != null) {
+            PartyType partyType = partyTypeRepository.findById(partyDTO.getPartyType().getId())
+                    .orElseThrow(() -> new RuntimeException("Type de fête non trouvé"));
+            party.setPartyType(partyType);
+        }
+
+        // Sauvegarder la party
+        Party savedParty = partyRepository.save(party);
+
+        // Retourner le DTO correspondant
+        return partyMapper.toDTO(savedParty);
+    }
+
+
 
     public List<PartyDTO> getWithFilter(Integer capacity, String location, String partyType, Boolean paid, String date_party) {
         System.out.println(partyRepository.findPartiesWithOptionalPaymentFilter(capacity, location, paid, date_party, partyType));

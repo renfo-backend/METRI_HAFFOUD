@@ -15,6 +15,12 @@ public class PartyController {
     @Autowired
     private PartyService partyService;
 
+    @PostMapping("/createParty")
+    public PartyDTO createParty(@RequestBody PartyDTO partyDTO) {
+        return partyService.createParty(partyDTO);
+    }
+
+
     @GetMapping("/getWithFilter")
     public List<PartyDTO> getWithFilter(
             @RequestParam(required = false, defaultValue = "0") Integer capacity,
