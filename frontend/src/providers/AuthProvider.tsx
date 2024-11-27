@@ -12,12 +12,12 @@ const defaultContextValue: AUTH_CONTEXT_TYPE = {
     isAuthenticated: false,
     login: async (): Promise<CONNECTION_RESPONSE_LOGIN> => {
         await Promise.resolve();
-        return { message: "" };
+        return {username: "", message: "" };
     },
-    // logout: async (): Promise<CONNECTION_RESPONSE_LOGIN> => {
-    //     await Promise.resolve();
-    //     return { message: "" };
-    // },
+    logout: async (): Promise<string> => {
+        await Promise.resolve();
+        return  "" ;
+    },
     // checkDoubleAuth: async (): Promise<CONNECTION_RESPONSE_LOGIN> => {
     //     await Promise.resolve();
     //     return { message: "" };
@@ -33,12 +33,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const result = async () => {
             try {
-                console.log(cookies.get("token"));
-                console.log(cookies.get("username"));
-
-                if (cookies.get("token") && cookies.get("username")) {
-                    setIsAuthenticated(true);
-                }
+                cookies.remove("username", { path: "/" });
+                cookies.remove("token", { path: "/" });
                 // const data = await checkIsLogin();
                 // if (data.message) {
                 //     setIsAuthenticated(true);
@@ -53,7 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             }
         };
         result().then(r => r).catch((e: unknown) => e);
-    }, [location.pathname]);
+    }, []);
 
     const login = async (userData: USER_LOGIN): Promise<CONNECTION_RESPONSE_LOGIN> => {
         const data = await loginUser(userData);
@@ -67,8 +63,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return data;
     };
 
+
+    const logout = async (): Promise<string> => {
+        cookies.remove("username", { path: "/" });
+        cookies.remove("token", { path: "/" });
+        setIsAuthenticated(false);
+        return "success";
+    }
+
+
     return (
-        <AUTH_CONTEXT.Provider value={{ isAuthenticated, login }}>
+        <AUTH_CONTEXT.Provider value={{ isAuthenticated, login,logout }}>
             {children}
         </AUTH_CONTEXT.Provider>
     );

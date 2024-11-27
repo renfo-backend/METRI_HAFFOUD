@@ -4,6 +4,8 @@ import fr.projet.duo.optimisation.Entity.Request.BoardGamesPartyRequest;
 import fr.projet.duo.optimisation.Entity.Request.ClassicPartyRequest;
 import fr.projet.duo.optimisation.Entity.Request.LanPartyRequest;
 import fr.projet.duo.optimisation.Service.PartyService;
+import fr.projet.duo.optimisation.Util.JwtUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +33,18 @@ public class PartyController {
     }
 
     @PostMapping("/addParty/boardgame")
-    public PartyDTO addPartyBoardGame(@RequestBody BoardGamesPartyRequest boardGamesPartyRequest) {
+    public PartyDTO addPartyBoardGame(@RequestBody BoardGamesPartyRequest boardGamesPartyRequest, @RequestHeader("Authorization") String authorizationHeader) {
+        System.out.println("Authorization header: " + authorizationHeader);
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
 
-        return partyService.addPartyBoardGame(boardGamesPartyRequest);
+        String token = authorizationHeader.substring(7).trim();  // Utilisez trim() pour supprimer les espaces blancs
+
+        System.out.println(boardGamesPartyRequest);
+        return partyService.addPartyBoardGame(boardGamesPartyRequest, token);
     }
+
 
     @PostMapping("/addParty/classic")
     public PartyDTO addPartyClassic(@RequestBody ClassicPartyRequest classicPartyRequest) {

@@ -9,8 +9,10 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 
 public class JwtUtil {
-    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60;
+    // Utiliser la clé secrète aléatoire générée
+    private static final String SECRET_KEY_STRING = "5fGv6txW7yLP1X3NpQZ09lUmHuTrsWVJc3y0x9RfKbXYMbD4sPqz65KtFbOwL2Xp";
+    private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes());
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 heure
 
     public static String generateToken(Long userId, String username) {
         return Jwts.builder()
@@ -31,7 +33,7 @@ public class JwtUtil {
     }
 
     public static Claims extractClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
     }
 
     public static boolean isTokenValid(String token, String username) {

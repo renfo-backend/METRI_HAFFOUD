@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import USER_LOGIN from "../../type/USER_LOGIN.ts";
 import {loginUser} from "./service/ConnexionService.ts";
 import {useAuth} from "../../providers/AuthProvider.tsx";
+import Nabvar from "../../components/Navbar.tsx";
 
 const ConnectionPage = () => {
     const [formData, setFormData] = useState<USER_LOGIN>({ username: "LeYass", password: "ss123" })
@@ -32,7 +33,11 @@ const ConnectionPage = () => {
         // Logique de soumission simulée
         try {
             const response =await login(formData);
-            console.log(response);
+
+            if (response.message!=="") {
+                console.log(response);
+                navigate("/");
+            }
 
             // console.log("response", response);
 
@@ -54,11 +59,8 @@ const ConnectionPage = () => {
         }
     }
 
-    if (isAuthenticated) {
-        navigate("/cc");
-    }
-
     return (
+        <>
         <div className="flex items-center justify-center h-screen w-screen">
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8" onSubmit={handleSubmit}>
                 <h1 className="font-bold flex justify-center">Login</h1>
@@ -78,6 +80,7 @@ const ConnectionPage = () => {
                 </div>
             </form>
         </div>
+        </>
     )
 
 }

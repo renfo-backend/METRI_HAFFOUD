@@ -26,9 +26,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginRequest loginRequest) {
-        System.out.println("username: " + loginRequest.getUsername());
         Users user = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
         String token = JwtUtil.generateToken(user.getId(), user.getUsername());
+        System.out.println("Token: " + token);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", token);

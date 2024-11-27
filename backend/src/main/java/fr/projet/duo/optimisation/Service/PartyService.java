@@ -7,6 +7,7 @@ import fr.projet.duo.optimisation.Entity.Request.ClassicPartyRequest;
 import fr.projet.duo.optimisation.Entity.Request.LanPartyRequest;
 import fr.projet.duo.optimisation.Mapper.*;
 import fr.projet.duo.optimisation.Repository.*;
+import fr.projet.duo.optimisation.Util.JwtUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,9 +29,11 @@ public class PartyService {
 
     private final LANPartyTypeRepository lanPartyTypeRepository;
     private final LanPartyDetailsMapper lanPartyDetailsMapper;
+    private final AddressRepository addressRepository;
+    private final AddressMapper addressMapper;
 
 
-    public PartyService(PartyRepository partyRepository, UsersRepository usersRepository, PartyTypeRepository partyTypeRepository, BoardGamesPartyTypeRepository boardGamesPartyTypeRepository, PartyMapper partyMapper, UsersMapper usersMapper, BoardGamesPartyDetailsMapper boardGamesPartyDetailsMapper, ClassicPartyTypeRepository classicPartyTypeRepository, ClassicPartyDetailsMapper classicPartyDetailsMapper, LANPartyTypeRepository lanPartyTypeRepository, LanPartyDetailsMapper lanPartyDetailsMapper) {
+    public PartyService(PartyRepository partyRepository, UsersRepository usersRepository, PartyTypeRepository partyTypeRepository, BoardGamesPartyTypeRepository boardGamesPartyTypeRepository, PartyMapper partyMapper, UsersMapper usersMapper, BoardGamesPartyDetailsMapper boardGamesPartyDetailsMapper, ClassicPartyTypeRepository classicPartyTypeRepository, ClassicPartyDetailsMapper classicPartyDetailsMapper, LANPartyTypeRepository lanPartyTypeRepository, LanPartyDetailsMapper lanPartyDetailsMapper, AddressRepository addressRepository, AddressMapper addressMapper) {
         this.partyRepository = partyRepository;
         this.usersRepository = usersRepository;
         this.partyTypeRepository = partyTypeRepository;
@@ -42,6 +45,8 @@ public class PartyService {
         this.classicPartyDetailsMapper = classicPartyDetailsMapper;
         this.lanPartyTypeRepository = lanPartyTypeRepository;
         this.lanPartyDetailsMapper = lanPartyDetailsMapper;
+        this.addressRepository = addressRepository;
+        this.addressMapper = addressMapper;
     }
 
 
@@ -54,18 +59,19 @@ public class PartyService {
         return partyMapper.toDTOs(partyRepository.findAll());
     }
 
-    public PartyDTO addPartyBoardGame(BoardGamesPartyRequest boardGamesPartyRequest) {
-        // Sauvegarder l'organisateur d'abord
-        Users organizer = usersMapper.UsersDTOToUsers(boardGamesPartyRequest.getParty().getOrganizer());
-        Users savedOrganizer = usersRepository.save(organizer);  // Assurez-vous que usersRepository est injecté dans le service
+    public PartyDTO addPartyBoardGame(BoardGamesPartyRequest boardGamesPartyRequest, String token) {
+            Users organizer=usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
+            boardGamesPartyRequest.getParty().setAddress(addressMapper.toDTO(addressRepository.save(addressMapper.toEntity(boardGamesPartyRequest.getParty().getAddress()))));
 
         // Ensuite, sauvegarder le type de soirée
+        System.out.println(boardGamesPartyRequest.getBoardGamesDetails());
         BoardGamesPartyType boardGamesDetails = boardGamesPartyDetailsMapper.toDTO(boardGamesPartyRequest.getBoardGamesDetails());
+        System.out.println(boardGamesDetails);
         BoardGamesPartyType savedBoardGamesDetails = boardGamesPartyTypeRepository.save(boardGamesDetails); // Assurez-vous que ce repository est injecté
 
         // Assigner l'organisateur sauvegardé et le type de soirée à la party
         Party party = partyMapper.toEntity(boardGamesPartyRequest.getParty());
-        party.setOrganizer(savedOrganizer);
+        party.setOrganizer(organizer);
         party.setPartyType(savedBoardGamesDetails);
 
         // Sauvegarder la party
