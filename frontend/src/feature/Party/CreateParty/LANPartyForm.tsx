@@ -1,30 +1,87 @@
-import { useState } from 'react';
+import { useState } from "react";
+import LANPartyEntityType from "../../../type/entity/LANPartyEntityType.ts";
+import PartyEntityType from "../../../type/entity/PartyEntityType.ts";
+import {createLANParty} from "./service/CreatePartyService.ts";
+
+// Importez le service de création
 
 const LANPartyForm = () => {
-    const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
-    const [dateParty, setDateParty] = useState('');
-    const [capacity, setCapacity] = useState(0);
-    const [isPaid, setIsPaid] = useState(false);
-    const [price, setPrice] = useState(0);
-    const [videoGames, setVideoGames] = useState<string[]>([]);
-    const [platforms, setPlatforms] = useState<string[]>([]);
-    const [participantsCanSuggestGames, setParticipantsCanSuggestGames] = useState(false);
-    const [currentVideoGame, setCurrentVideoGame] = useState('');
-    const [currentPlatform, setCurrentPlatform] = useState('');
+    // État pour les informations générales de la soirée
+    const [party, setParty] = useState<PartyEntityType>({
+        id: 0,
+        name: 'PArty',
+        description: 'nul ',
+        address: {
+            id: 0,
+            street: '3 rue ',
+            location: 'Paris ',
+        },
+        dateParty: '15/03/2002',
+        capacity: 20,
+        isPaid: false,
+        price: 60,
+        isPublished: false,
+    });
+
+    // État pour les informations spécifiques à la LAN Party
+    const [lanParty, setLanParty] = useState<LANPartyEntityType>({
+        videoGames: [
+            'League of Legends',
+            'Counter Strike',
+            'Valorant',],
+        platforms: [
+            'PC',
+            'Console',
+        ],
+        participantsCanSuggestGames: false,
+    });
+
+    const [currentVideoGame, setCurrentVideoGame] = useState("");
+    const [currentPlatform, setCurrentPlatform] = useState("");
+
+    // Gestion des changements dans les informations générales de la soirée
+    const handlePartyChange = (field: string, value: any) => {
+        setParty((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+    };
+
+    // Gestion des changements dans les informations spécifiques à la LAN Party
+    const handleLanPartyChange = (field: string, value: any) => {
+        setLanParty((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+    };
 
     const handleAddVideoGame = () => {
-        if (currentVideoGame.trim() !== '') {
-            setVideoGames([...videoGames, currentVideoGame]);
-            setCurrentVideoGame('');
+        if (currentVideoGame.trim() !== "") {
+            setLanParty((prev) => ({
+                ...prev,
+                videoGames: [...prev.videoGames, currentVideoGame],
+            }));
+            setCurrentVideoGame("");
         }
     };
 
     const handleAddPlatform = () => {
-        if (currentPlatform.trim() !== '') {
-            setPlatforms([...platforms, currentPlatform]);
-            setCurrentPlatform('');
+        if (currentPlatform.trim() !== "") {
+            setLanParty((prev) => ({
+                ...prev,
+                platforms: [...prev.platforms, currentPlatform],
+            }));
+            setCurrentPlatform("");
         }
+    };
+
+    const handleSubmit = async () => {
+        console.log(party);
+        console.log(lanParty);
+
+        console.log("Création de la soirée");
+        // Envoyer les données au backend
+        await createLANParty(party, lanParty);
     };
 
     return (
@@ -34,45 +91,56 @@ const LANPartyForm = () => {
                 type="text"
                 placeholder="Nom de la soirée"
                 className="mb-4 p-2 border rounded-md"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={party.name}
+                onChange={(e) => handlePartyChange("name", e.target.value)}
+            />
+            <textarea
+                placeholder="Description de la soirée"
+                className="mb-4 p-2 border rounded-md"
+                value={party.description}
+                onChange={(e) => handlePartyChange("description", e.target.value)}
             />
             <input
                 type="text"
                 placeholder="Adresse"
                 className="mb-4 p-2 border rounded-md"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                value={party.address.street}
+                onChange={(e) =>
+                    handlePartyChange("address", {
+                        ...party.address,
+                        street: e.target.value,
+                    })
+                }
             />
             <input
                 type="date"
                 placeholder="Date de la soirée"
                 className="mb-4 p-2 border rounded-md"
-                value={dateParty}
-                onChange={(e) => setDateParty(e.target.value)}
+                value={party.dateParty}
+                onChange={(e) => handlePartyChange("dateParty", e.target.value)}
             />
             <input
                 type="number"
                 placeholder="Capacité"
                 className="mb-4 p-2 border rounded-md"
-                value={capacity}
-                onChange={(e) => setCapacity(parseInt(e.target.value))}
+                value={party.capacity}
+                onChange={(e) => handlePartyChange("capacity", parseInt(e.target.value))}
             />
             <label className="flex items-center space-x-2 mb-4">
                 <input
                     type="checkbox"
-                    checked={isPaid}
-                    onChange={() => setIsPaid(!isPaid)}
+                    checked={party.isPaid}
+                    onChange={() => handlePartyChange("isPaid", !party.isPaid)}
                 />
                 <span>Soirée payante</span>
             </label>
-            {isPaid && (
+            {party.isPaid && (
                 <input
                     type="number"
                     placeholder="Prix"
                     className="mb-4 p-2 border rounded-md"
-                    value={price}
-                    onChange={(e) => setPrice(parseFloat(e.target.value))}
+                    value={party.price}
+                    onChange={(e) => handlePartyChange("price", parseFloat(e.target.value))}
                 />
             )}
             <div className="mb-4">
@@ -90,10 +158,12 @@ const LANPartyForm = () => {
                     Ajouter
                 </button>
             </div>
-            {videoGames.length > 0 && (
+            {lanParty.videoGames.length > 0 && (
                 <ul className="mb-4">
-                    {videoGames.map((game, index) => (
-                        <li key={index} className="text-gray-700">{game}</li>
+                    {lanParty.videoGames.map((game, index) => (
+                        <li key={index} className="text-gray-700">
+                            {game}
+                        </li>
                     ))}
                 </ul>
             )}
@@ -112,22 +182,32 @@ const LANPartyForm = () => {
                     Ajouter
                 </button>
             </div>
-            {platforms.length > 0 && (
+            {lanParty.platforms.length > 0 && (
                 <ul className="mb-4">
-                    {platforms.map((platform, index) => (
-                        <li key={index} className="text-gray-700">{platform}</li>
+                    {lanParty.platforms.map((platform, index) => (
+                        <li key={index} className="text-gray-700">
+                            {platform}
+                        </li>
                     ))}
                 </ul>
             )}
             <label className="flex items-center space-x-2 mb-4">
                 <input
                     type="checkbox"
-                    checked={participantsCanSuggestGames}
-                    onChange={() => setParticipantsCanSuggestGames(!participantsCanSuggestGames)}
+                    checked={lanParty.participantsCanSuggestGames}
+                    onChange={() =>
+                        handleLanPartyChange(
+                            "participantsCanSuggestGames",
+                            !lanParty.participantsCanSuggestGames
+                        )
+                    }
                 />
                 <span>Les participants peuvent proposer des jeux</span>
             </label>
-            <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
+            <button
+                onClick={handleSubmit}
+                className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
+            >
                 Créer Soirée
             </button>
         </div>

@@ -34,7 +34,6 @@ public class PartyController {
 
     @PostMapping("/addParty/boardgame")
     public PartyDTO addPartyBoardGame(@RequestBody BoardGamesPartyRequest boardGamesPartyRequest, @RequestHeader("Authorization") String authorizationHeader) {
-        System.out.println("Authorization header: " + authorizationHeader);
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Invalid Authorization header format");
         }
@@ -47,12 +46,25 @@ public class PartyController {
 
 
     @PostMapping("/addParty/classic")
-    public PartyDTO addPartyClassic(@RequestBody ClassicPartyRequest classicPartyRequest) {
-        return partyService.addPartyClassic(classicPartyRequest);
+    public PartyDTO addPartyClassic(@RequestBody ClassicPartyRequest classicPartyRequest, @RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String token = authorizationHeader.substring(7).trim();
+
+        return partyService.addPartyClassic(classicPartyRequest,token);
     }
 
     @PostMapping("/addParty/lan")
-    public PartyDTO addPartyLan(@RequestBody LanPartyRequest lanPartyRequest) {
-        return partyService.addPartyLan(lanPartyRequest);
+    public PartyDTO addPartyLan(@RequestBody LanPartyRequest lanPartyRequest, @RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String token = authorizationHeader.substring(7).trim();
+
+        System.out.println(lanPartyRequest);
+        return partyService.addPartyLan(lanPartyRequest,token);
     }
 }
