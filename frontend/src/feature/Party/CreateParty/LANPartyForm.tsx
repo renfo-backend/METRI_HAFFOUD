@@ -21,6 +21,16 @@ const LANPartyForm = () => {
         isPaid: false,
         price: 60,
         isPublished: false,
+        organizer: {
+            id: 0,
+            username: "Organisateur",
+        },
+        participants: [],
+        partyType: {
+            id: 0,
+            name: "Soiré LAN",
+            description: "Soirée LAN",
+        },
     });
 
     // État pour les informations spécifiques à la LAN Party

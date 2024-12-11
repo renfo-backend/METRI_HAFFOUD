@@ -26,4 +26,6 @@ public interface PartyRepository extends JpaRepository<Party, Long> {
             @Param("dateParty") String dateParty,
             @Param("partyType") String partyType
     );
+
+    List<Party>findByOrganizerId(Long id);
 }

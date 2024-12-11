@@ -6,6 +6,19 @@ interface PartyEntityType{
     description: string;
     address:AdressEntityType;
     capacity: number;
+    organizer:{
+        id:number,
+        username:string,
+    }
+    participants: {
+        id: number,
+        username: string,
+    }[];
+    partyType:{
+        id: number,
+        name: string,
+        description: string,
+    }
     isPaid: boolean;
     price: number;
     isPublished: boolean;

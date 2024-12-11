@@ -38,7 +38,7 @@ public class PartyController {
             throw new IllegalArgumentException("Invalid Authorization header format");
         }
 
-        String token = authorizationHeader.substring(7).trim();  // Utilisez trim() pour supprimer les espaces blancs
+        String token = authorizationHeader.substring(7).trim();
 
         System.out.println(boardGamesPartyRequest);
         return partyService.addPartyBoardGame(boardGamesPartyRequest, token);
@@ -64,7 +64,20 @@ public class PartyController {
 
         String token = authorizationHeader.substring(7).trim();
 
-        System.out.println(lanPartyRequest);
         return partyService.addPartyLan(lanPartyRequest,token);
     }
+
+    @GetMapping("/getPartyByOrganizer")
+    public List<PartyDTO> getPartyByOrganizer(@RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+
+        String token = authorizationHeader.substring(7).trim();
+
+
+        return partyService.getAllPartiesUserIsOrganizer(token);
+    }
+
 }

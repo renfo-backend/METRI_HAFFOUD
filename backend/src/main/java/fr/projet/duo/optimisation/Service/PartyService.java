@@ -73,6 +73,8 @@ public class PartyService {
         Party party = partyMapper.toEntity(boardGamesPartyRequest.getParty());
         party.setOrganizer(organizer);
         party.setPartyType(savedBoardGamesDetails);
+        party.getPartyType().setDescription(boardGamesPartyRequest.getBoardGamesDetails().getDescription());
+        party.getPartyType().setName("BOARDGAMES");
 
         // Sauvegarder la party
         Party savedParty = partyRepository.save(party);
@@ -84,7 +86,7 @@ public class PartyService {
     public PartyDTO addPartyClassic(ClassicPartyRequest classicPartyRequest,String token) {
         // Sauvegarder l'organisateur d'abord
         Users organizer=usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
-
+        classicPartyRequest.getParty().setAddress(addressMapper.toDTO(addressRepository.save(addressMapper.toEntity(classicPartyRequest.getParty().getAddress()))));
         // Ensuite, sauvegarder le type de soirée
         ClassicPartyType classicPartyType = classicPartyDetailsMapper.toDTO(classicPartyRequest.getClassicDetails());
         ClassicPartyType classicPartyType1 = classicPartyTypeRepository.save(classicPartyType); // Assurez-vous que ce repository est injecté
@@ -93,7 +95,8 @@ public class PartyService {
         Party party = partyMapper.toEntity(classicPartyRequest.getParty());
         party.setOrganizer(organizer);
         party.setPartyType(classicPartyType1);
-
+        party.getPartyType().setDescription(classicPartyRequest.getClassicDetails().getDescription());
+        party.getPartyType().setName("CLASSIC");
         // Sauvegarder la party
         Party savedParty = partyRepository.save(party);
 
@@ -112,12 +115,19 @@ public class PartyService {
         // Assigner l'organisateur sauvegardé et le type de soirée à la party
         Party party = partyMapper.toEntity(lanPartyRequest.getParty());
         party.setPartyType(lanPartyType1);
+        party.getPartyType().setDescription(lanPartyRequest.getLanDetails().getDescription());
+        party.getPartyType().setName("LAN");
         party.setOrganizer(organizer);
 
         Party savedParty = partyRepository.save(party);
 
         return partyMapper.toDTO(savedParty);
 
+    }
+
+    public List<PartyDTO> getAllPartiesUserIsOrganizer(String token) {
+        Users organizer = usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
+        return partyMapper.toDTOs(partyRepository.findByOrganizerId(organizer.getId()));
     }
 
 }

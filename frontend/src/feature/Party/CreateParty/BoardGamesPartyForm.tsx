@@ -3,7 +3,6 @@ import BoardGamesPartyEntityType from "../../../type/entity/BoardGamesPartyEntit
 import PartyEntityType from "../../../type/entity/PartyEntityType.ts";
 import {createBoardGamesParty} from "./service/CreatePartyService.ts";
 
-// Importez les interfaces correspondantes
 
 const BoardGamesPartyForm = () => {
     // État global pour les informations de la soirée
@@ -21,6 +20,16 @@ const BoardGamesPartyForm = () => {
         isPaid: false,
         price: 60,
         isPublished: false,
+        organizer: {
+            id: 0,
+            username: "Organisateur",
+        },
+        participants: [],
+        partyType: {
+            id: 0,
+            name: "Soirée BOARDGAMES",
+            description: "Soirée BOARDGAMES",
+        },
     });
 
     // État spécifique aux soirées jeux de société

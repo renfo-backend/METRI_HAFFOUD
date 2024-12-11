@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ClassicPartyEntityType from "../../../type/entity/ClassicPartyEntityType.ts";
 import PartyEntityType from "../../../type/entity/PartyEntityType.ts";
+import {createClassicParty} from "./service/CreatePartyService.ts";
 
 const ClassicPartyForm = () => {
     // État pour les informations générales de la soirée
@@ -18,6 +19,16 @@ const ClassicPartyForm = () => {
         isPaid: false,
         price: 0,
         isPublished: false,
+        organizer: {
+            id: 0,
+            username: "Organisateur",
+        },
+        participants: [],
+        partyType: {
+            id: 0,
+            name: "Soirée Classique",
+            description: "Soirée Classique",
+        },
     });
 
     // État pour les informations spécifiques à la Soirée Classique
