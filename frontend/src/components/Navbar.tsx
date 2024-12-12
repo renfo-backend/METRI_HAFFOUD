@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider.tsx';
+import Cookies from "universal-cookie";
+const cookies = new Cookies()
 
 const Navbar = () => {
     const { isAuthenticated } = useAuth();
@@ -42,9 +44,12 @@ const Navbar = () => {
                             </Link>
                         </>
                     ) : (
+                        <button onClick={() => cookies.remove("token")}>
+
                         <Link to="/connexion" className="bg-white text-purple-600 px-4 py-2 rounded-md hover:bg-purple-200">
                             Déconnexion
                         </Link>
+                        </button>
                     )}
                 </div>
 

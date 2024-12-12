@@ -4,6 +4,7 @@ import {AuthProvider} from "./providers/AuthProvider.tsx";
 import AccueilPage from "./feature/Accueil.tsx";
 import CreateParty from "./feature/Party/CreateParty/CreateParty.tsx";
 import OrganizeParty from "./feature/Party/OrganizeParty/OrganizeParty.tsx";
+import JoinParty from "./feature/Party/JoinParty/JoinParty.tsx";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                     <Route path="/create-party" element={<CreateParty />} />
                     <Route path="/join-party" element={<div>Join Party</div>} />
                     <Route path="/my-parties" element={<OrganizeParty/>} />
+                    <Route path="/events" element={<JoinParty/>} />
                 </Routes>
             </AuthProvider>
         </Router>

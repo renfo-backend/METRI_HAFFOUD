@@ -46,7 +46,4 @@ public class UsersDTO {
     @ToStringExclude
     private List<PartyDTO> organizedParties = new ArrayList<>();
 
-
-
-
 }

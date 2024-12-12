@@ -50,9 +50,10 @@ public class PartyService {
     }
 
 
-    public List<PartyDTO> getWithFilter(Integer capacity, String location, String partyType, Boolean paid, String date_party) {
-        System.out.println(partyRepository.findPartiesWithOptionalPaymentFilter(capacity, location, paid, date_party, partyType));
-        return partyMapper.toDTOs(partyRepository.findPartiesWithOptionalPaymentFilter(capacity,location,paid,date_party,partyType));
+    public List<PartyDTO> getWithFilter(Integer capacity, String location, String partyType, Boolean paid, String dateParty, String token) {
+        Users users=usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
+        System.out.println(partyRepository.findPartiesWithOptionalPaymentFilter(capacity, location, paid, dateParty, partyType,users));
+        return partyMapper.toDTOs(partyRepository.findPartiesWithOptionalPaymentFilter(capacity,location,paid,dateParty,partyType,users));
     }
 
     public List<PartyDTO> getAllPartyTypes() {
@@ -130,4 +131,8 @@ public class PartyService {
         return partyMapper.toDTOs(partyRepository.findByOrganizerId(organizer.getId()));
     }
 
+    public List<PartyDTO> getAllPartiesUserIsNotOrganizer(String token) {
+        Users user = usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
+        return partyMapper.toDTOs(partyRepository.findAllParties(user));
+    }
 }

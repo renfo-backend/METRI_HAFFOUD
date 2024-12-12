@@ -63,12 +63,12 @@ public class ParticipationRequestService {
             throw new IllegalArgumentException("Invalid Authorization header");
         }
 
-        Long userId = JwtUtil.extractUserId(token);
+        Users organizer = usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
 
         ParticipationRequest participationRequest = participationRequestRepository.findById(idParticipationRequest).get();
-        if (participationRequest.getParty().getOrganizer().getId().equals(userId)) {
-            System.out.println("dedans ");
+    if (participationRequest.getParty().getOrganizer().getId().equals(organizer.getId())) {
             participationRequest.setStatus(status);
+            System.out.println(participationRequest);
             participationRequestRepository.save(participationRequest);
             return "Status changed";
         } else {
@@ -76,8 +76,14 @@ public class ParticipationRequestService {
         }
     }
 
-    public List<ParticipationRequestDTO> getParticipationRequest(String token) {
+    public List<ParticipationRequestDTO> getParticipationRequest(String token,Long id) {
         Users users = usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
+        return participationRequestMapper.toDTOs(participationRequestRepository.findByUsers(users,id));
+    }
+
+    public List<ParticipationRequestDTO> getParticipationRequestInvite(String token) {
+        Users users = usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
+        System.out.println(participationRequestMapper.toDTOs(participationRequestRepository.findByUsers(users)));
         return participationRequestMapper.toDTOs(participationRequestRepository.findByUsers(users));
     }
 }

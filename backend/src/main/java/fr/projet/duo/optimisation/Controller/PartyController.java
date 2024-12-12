@@ -14,17 +14,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/party")
 public class PartyController {
+    @Autowired
     private PartyService partyService;
 
-
-    @GetMapping("/getWithFilter")
+    @GetMapping("/getAllPartiesWithFilter")
     public List<PartyDTO> getWithFilter(
             @RequestParam(required = false, defaultValue = "0") Integer capacity,
             @RequestParam(required = false, defaultValue = "") String location,
             @RequestParam(required = false, defaultValue = "") String partyType,
             @RequestParam(required = false) Boolean isPaid,
-            @RequestParam(required = false, defaultValue = "") String dateParty) {
-        return partyService.getWithFilter(capacity, location, partyType, isPaid, dateParty);
+            @RequestParam(required = false, defaultValue = "") String dateParty,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String token = authorizationHeader.substring(7).trim();
+
+
+        return partyService.getWithFilter(capacity, location, partyType, isPaid, dateParty, token);
     }
 
     @GetMapping("/getAllPartyTypes")
@@ -74,10 +82,22 @@ public class PartyController {
         }
 
 
+
         String token = authorizationHeader.substring(7).trim();
 
 
         return partyService.getAllPartiesUserIsOrganizer(token);
     }
+
+//    @GetMapping("/getAllParties")
+//    public List<PartyDTO> getAllParties(@RequestHeader("Authorization") String authorizationHeader) {
+//        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+//            throw new IllegalArgumentException("Invalid Authorization header format");
+//        }
+//
+//        String token = authorizationHeader.substring(7).trim();
+//
+//        return partyService.getAllPartiesUserIsNotOrganizer(token);
+//    }
 
 }
