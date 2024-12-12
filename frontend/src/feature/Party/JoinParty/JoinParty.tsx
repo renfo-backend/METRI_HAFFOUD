@@ -89,7 +89,7 @@ const JoinParty = () => {
                         <label className="block text-sm font-medium text-gray-700">Payant</label>
                         <select
                             className="w-full p-2 border border-gray-300 rounded-lg"
-                            value={filters.isPaid||"false"}
+                            value={filters?.isPaid ? "true" : "false"}
                             onChange={(e) => setFilters({ ...filters, isPaid: e.target.value === "true" })}
                         >
                             <option value="false">Non</option>
