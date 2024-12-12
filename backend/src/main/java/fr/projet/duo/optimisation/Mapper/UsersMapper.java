@@ -17,7 +17,7 @@ public interface UsersMapper {
     @Mapping(target = "interests", ignore = true) // Ignorer pour éviter la récursion
     @Mapping(target = "notifications", ignore = true)
     @Mapping(target = "party", ignore = true)
-    @Mapping(target = "participationRequests", ignore = true)
+//    @Mapping(target = "participationRequests", ignore = true)
     @Mapping(target = "organizedParties", ignore = true)
     @Mapping(target = "address", ignore = true)
     UsersDTO userToUserDTO(Users users);
@@ -25,7 +25,7 @@ public interface UsersMapper {
     @Mapping(target = "interests", ignore = true) // Ignorer pour éviter la récursion
     @Mapping(target = "notifications", ignore = true)
     @Mapping(target = "party", ignore = true)
-    @Mapping(target = "participationRequests", ignore = true)
+//    @Mapping(target = "participationRequests", ignore = true)
     @Mapping(target = "organizedParties", ignore = true)
     @Mapping(target = "address", ignore = true)
     List<UsersDTO> usersToUsersDTO(List<Users> users);

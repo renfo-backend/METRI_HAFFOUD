@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/participationRequest")
 public class ParticipationRequestController {
@@ -34,6 +36,21 @@ public class ParticipationRequestController {
 
 
         return ResponseEntity.ok(participationRequestService.changeStatusParticipationRequest(authorizationHeader, idParticipationRequest, status));
+
+    }
+
+    @GetMapping("/getParticipationRequest")
+    public List<ParticipationRequestDTO> getParticipationRequest(
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String token = authorizationHeader.substring(7).trim();
+
+
+        return participationRequestService.getParticipationRequest(token);
 
     }
 

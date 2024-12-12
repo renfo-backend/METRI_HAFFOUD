@@ -14,8 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/party")
 public class PartyController {
-    @Autowired
     private PartyService partyService;
+
 
     @GetMapping("/getWithFilter")
     public List<PartyDTO> getWithFilter(

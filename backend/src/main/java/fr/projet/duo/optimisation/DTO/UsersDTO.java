@@ -34,13 +34,13 @@ public class UsersDTO {
     @Schema(hidden = true)
     private String password;
 
+    @JsonIgnore
+    @ToStringExclude
     private List<NotificationDTO> notifications = new ArrayList<>();
     private List<InterestDTO> interests = new ArrayList<>();
     @JsonIgnore
     @ToStringExclude
     private List<PartyDTO> party = new ArrayList<>();
-    @JsonIgnore
-    @ToStringExclude
     private List<ParticipationRequestDTO> participationRequests = new ArrayList<>();
     @JsonIgnore
     @ToStringExclude

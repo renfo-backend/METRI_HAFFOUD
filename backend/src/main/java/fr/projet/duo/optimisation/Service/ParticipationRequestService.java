@@ -1,12 +1,16 @@
 package fr.projet.duo.optimisation.Service;
 
+import fr.projet.duo.optimisation.DTO.ParticipationRequestDTO;
 import fr.projet.duo.optimisation.Entity.ParticipationRequest;
+import fr.projet.duo.optimisation.Entity.Users;
 import fr.projet.duo.optimisation.Mapper.ParticipationRequestMapper;
 import fr.projet.duo.optimisation.Repository.ParticipationRequestRepository;
 import fr.projet.duo.optimisation.Repository.PartyRepository;
 import fr.projet.duo.optimisation.Repository.UsersRepository;
 import fr.projet.duo.optimisation.Util.JwtUtil;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ParticipationRequestService {
@@ -44,7 +48,7 @@ public class ParticipationRequestService {
         System.out.println(participationRequestRepository.save(participationRequest));
 
 
-        if (participationRequestMapper.toEntity(participationRequestRepository.save(participationRequest)).getId() != null) {
+        if (participationRequestMapper.toDTO(participationRequestRepository.save(participationRequest)).getId() != null) {
             return "Participation request created";
         } else {
             return "Participation request not created";
@@ -70,5 +74,10 @@ public class ParticipationRequestService {
         } else {
             return "Status not changed";
         }
+    }
+
+    public List<ParticipationRequestDTO> getParticipationRequest(String token) {
+        Users users = usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
+        return participationRequestMapper.toDTOs(participationRequestRepository.findByUsers(users));
     }
 }

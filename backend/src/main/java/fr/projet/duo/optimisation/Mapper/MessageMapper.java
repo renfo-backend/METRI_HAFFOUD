@@ -15,7 +15,7 @@ public interface MessageMapper {
 
     @Mapping(target = "users.notifications", ignore = true) // Ignorer les notifications dans Users pour éviter la récursion
     @Mapping(target = "users.party", ignore = true)
-    @Mapping(target = "users.participationRequests", ignore = true)
+//    @Mapping(target = "users.participationRequests", ignore = true)
     @Mapping(target = "users.organizedParties", ignore = true)
     @Mapping(target = "users.interests", ignore = true)
     @Mapping(target = "party.messages", ignore = true) // Ignorer les messages dans Party pour éviter la récursion
@@ -28,7 +28,7 @@ public interface MessageMapper {
 
     @Mapping(target = "users.notifications", ignore = true)
     @Mapping(target = "users.party", ignore = true)
-    @Mapping(target = "users.participationRequests", ignore = true)
+//    @Mapping(target = "users.participationRequests", ignore = true)
     @Mapping(target = "users.organizedParties", ignore = true)
     @Mapping(target = "users.interests", ignore = true)
     @Mapping(target = "party.messages", ignore = true)
