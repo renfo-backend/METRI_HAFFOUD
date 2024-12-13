@@ -8,6 +8,8 @@ import fr.projet.duo.optimisation.Entity.Request.LanPartyRequest;
 import fr.projet.duo.optimisation.Mapper.*;
 import fr.projet.duo.optimisation.Repository.*;
 import fr.projet.duo.optimisation.Util.JwtUtil;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -161,4 +163,47 @@ public class PartyService {
         Users user = usersRepository.findByUsername(JwtUtil.extractUsername(token)).get();
         return partyMapper.toDTOs(partyRepository.findAllParties(user));
     }
+
+    public void deleteParty(Long partyId) {
+        partyRepository.deleteById(partyId);
+    }
+
+    public PartyDTO updateParty(Long id, PartyDTO partyDTO, String token) {
+        Long userId = JwtUtil.extractUserId(token);
+
+        Party existingParty = partyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Party not found"));
+
+        // Vérifiez si userId est bien l’organisateur de la party
+        if (!existingParty.getOrganizer().getId().equals(userId)) {
+            throw new AccessDeniedException("Vous n'avez pas le droit de modifier cette soirée.");
+        }
+
+
+        // Mettre à jour les propriétés
+        existingParty.setName(partyDTO.getName());
+        existingParty.setDateParty(partyDTO.getDateParty());
+        existingParty.setCapacity(partyDTO.getCapacity());
+        existingParty.setPrice(partyDTO.getPrice());
+
+        Party savedParty = partyRepository.save(existingParty);
+
+        return partyMapper.toDTO(savedParty);
+    }
+
+    public PartyDTO getPartyById(Long id, String token) {
+        // Extraire l'userId du token si nécessaire
+        Long userId = JwtUtil.extractUserId(token);
+
+        Party party = partyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Party not found"));
+
+        System.out.println("party = " + party);
+        // Ici, vous pouvez ajouter des vérifications par rapport à l'utilisateur
+        // Par exemple, vérifier que l'utilisateur courant a le droit de voir cette party
+        // si nécessaire. Sinon, vous pouvez directement retourner la party.
+
+        return partyMapper.toDTO(party);
+    }
+
 }

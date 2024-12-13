@@ -25,12 +25,6 @@ const Navbar = () => {
                     <Link to="/my-parties" className="text-white hover:text-purple-200">
                         Mes Soirées
                     </Link>
-                    <Link to="/contact" className="text-white hover:text-purple-200">
-                        Contact
-                    </Link>
-                    <Link to="/about" className="text-white hover:text-purple-200">
-                        À propos
-                    </Link>
                 </div>
 
                 <div className="hidden md:flex space-x-4">

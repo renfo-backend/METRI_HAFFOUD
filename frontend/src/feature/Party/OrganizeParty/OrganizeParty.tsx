@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import {changePartyStatus, getAllParties, getRequestsByUser} from "./Service/OrganizePartyService.ts";
+import {changePartyStatus, deleteParty, getAllParties, getRequestsByUser} from "./Service/OrganizePartyService.ts";
 import ModalRequests from "./ModalRequest.tsx";
 import Navbar from "../../../components/Navbar.tsx";
+import {useNavigate} from "react-router-dom";
 
 const OrganizeParty = () => {
     const [parties, setParties] = useState([]);
     const [requests, setRequests] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPartiesAndRequests = async () => {
@@ -27,7 +29,16 @@ const OrganizeParty = () => {
         setOpenModal(false);
     };
 
-
+    const handleDeleteParty = async (partyId: number) => {
+        console.log("deleteParty")
+        try {
+            await deleteParty(partyId);
+            // Après suppression, mettez à jour la liste des soirées en retirant la soirée supprimée
+            setParties((prevParties) => prevParties.filter((party) => party.id !== partyId));
+        } catch (error) {
+            console.error("Erreur lors de la suppression de la soirée :", error);
+        }
+    };
 
     return (
         <>
@@ -81,9 +92,15 @@ const OrganizeParty = () => {
                         <div className="mt-4 flex items-center justify-between space-x-4">
                             <button
                                 className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition"
-                                onClick={() => console.log(`Modifier la soirée ID: ${party.id}`)}
+                                onClick={() => navigate(`/edit-party/${party.id}`)}
                             >
                                 Modifier
+                            </button>
+                            <button
+                                className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition"
+                                onClick={() => handleDeleteParty(party.id)}
+                            >
+                                Supprimer
                             </button>
                             <button
                                 className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
@@ -101,13 +118,13 @@ const OrganizeParty = () => {
                     </div>
                 ))}
             </div>
-            {openModal && (
-                <ModalRequests
-                    isOpen={openModal}
-                    setIsOpen={setOpenModal}
-                    requests={requests}
-                    onAccept={handleAccept}
-                    onReject={handleReject}
+                {openModal && (
+                    <ModalRequests
+                        isOpen={openModal}
+                        setIsOpen={setOpenModal}
+                        requests={requests}
+                        onAccept={handleAccept}
+                        onReject={handleReject}
                 />
             )}
         </div>

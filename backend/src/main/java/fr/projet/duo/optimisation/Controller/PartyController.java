@@ -7,6 +7,7 @@ import fr.projet.duo.optimisation.Service.PartyService;
 import fr.projet.duo.optimisation.Util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,20 @@ import java.util.List;
 public class PartyController {
     @Autowired
     private PartyService partyService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PartyDTO> getPartyById(@PathVariable Long id, @RequestHeader("Authorization") String authorizationHeader) {
+        System.out.println("test");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String token = authorizationHeader.substring(7).trim();
+        System.out.println("token = " + token);
+        PartyDTO partyDTO = partyService.getPartyById(id, token);
+        return ResponseEntity.ok(partyDTO);
+    }
+
 
     @GetMapping("/getAllPartiesWithFilter")
     public List<PartyDTO> getWithFilter(
@@ -59,6 +74,8 @@ public class PartyController {
             throw new IllegalArgumentException("Invalid Authorization header format");
         }
 
+        System.out.println("authorizationHeader = " + authorizationHeader);
+
         String token = authorizationHeader.substring(7).trim();
 
         return partyService.addPartyClassic(classicPartyRequest,token);
@@ -88,6 +105,40 @@ public class PartyController {
 
         return partyService.getAllPartiesUserIsOrganizer(token);
     }
+
+    @DeleteMapping("/deleteParty/{id}")
+    public ResponseEntity<Void> deleteParty(@PathVariable Long id, @RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String token = authorizationHeader.substring(7).trim();
+        // Appelez votre service pour supprimer la party
+        partyService.deleteParty(id);
+
+        // Retourne une réponse "No Content" pour indiquer la réussite sans contenu
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/updateParty/{id}")
+    public ResponseEntity<PartyDTO> updateParty(
+            @PathVariable Long id,
+            @RequestBody PartyDTO partyDTO,
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        // Vérification du token si nécessaire
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String token = authorizationHeader.substring(7).trim();
+
+        // Appel du service pour mettre à jour la party
+        PartyDTO updatedParty = partyService.updateParty(id, partyDTO, token);
+
+        return ResponseEntity.ok(updatedParty);
+    }
+
 
 //    @GetMapping("/getAllParties")
 //    public List<PartyDTO> getAllParties(@RequestHeader("Authorization") String authorizationHeader) {

@@ -2,7 +2,6 @@ import PartyEntityType from "../../../../type/entity/PartyEntityType.ts";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import RequestsPartyEntityType from "../../../../type/entity/RequestsPartyEntityType.ts";
-import {c} from "vite/dist/node/types.d-aGj9QkWt";
 import FilterParties from "../../../../type/entity/FilterParties.ts";
 
 const cookies = new Cookies()
@@ -53,6 +52,7 @@ export const changePartyStatus = async (id:number,status:string) => {
             {id,status},
             config
         )
+        return response.data
     }catch (error) {
         console.error("Erreur lors de la mise à jour du statut de la soirée : ", error);
         throw error;
@@ -76,4 +76,31 @@ export const getAllPartyTypes = async (filter:FilterParties) => {
         console.error("Erreur lors de la récupération des types de soirées : ", error);
         throw error;
     }
+}
+
+export const deleteParty = async (id: number) => {
+    try {
+        const response = await axios.delete(
+            `http://localhost:8080/party/deleteParty/${id}`,
+            config
+        );
+
+        return response; // ou response.data, selon ce que votre endpoint retourne
+    } catch (error) {
+        console.error("Erreur lors de la suppression de la soirée : ", error);
+        throw error;
+    }
+}
+export const getPartyById = async (id: number) => {
+    const response = await axios.get(`http://localhost:8080/party/${id}`, config);
+    return response.data;
+}
+
+export const updateParty = async (id: number, partyData: any) => {
+    const response = await axios.put(
+        `http://localhost:8080/party/updateParty/${id}`,
+        partyData,
+        config
+    );
+    return response.data;
 }
