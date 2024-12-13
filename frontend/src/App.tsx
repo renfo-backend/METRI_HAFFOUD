@@ -14,9 +14,8 @@ function App() {
                     <Route path="/connexion" element={<ConnectionPage />} />
                     <Route path="/" element={<AccueilPage />} />
                     <Route path="/create-party" element={<CreateParty />} />
-                    <Route path="/join-party" element={<div>Join Party</div>} />
                     <Route path="/my-parties" element={<OrganizeParty/>} />
-                    <Route path="/events" element={<JoinParty/>} />
+                    <Route path="/join-party" element={<JoinParty/>} />
                 </Routes>
             </AuthProvider>
         </Router>
