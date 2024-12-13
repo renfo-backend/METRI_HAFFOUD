@@ -12,7 +12,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PartyService {
@@ -204,6 +206,14 @@ public class PartyService {
         // si nécessaire. Sinon, vous pouvez directement retourner la party.
 
         return partyMapper.toDTO(party);
+    }
+
+    public List<PartyDTO> getUpcomingParties(String token) {
+        Long userId = JwtUtil.extractUserId(token);
+
+        // Récupérer les parties dont l'utilisateur a une participationRequest non rejetée et date >= aujourd'hui
+        List<Party> parties = partyRepository.findUpcomingPartiesByUserId(userId);
+        return parties.stream().map(partyMapper::toDTO).collect(Collectors.toList());
     }
 
 }

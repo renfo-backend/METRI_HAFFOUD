@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -28,6 +29,10 @@ public interface PartyRepository extends JpaRepository<Party, Long> {
             @Param("partyType") String partyType,
             @Param("users") Users users
     );
+
+    @Query("SELECT p FROM Party p JOIN p.participationRequests pr WHERE pr.users.id = :userId AND pr.status = 'ACCEPTED' ")
+    List<Party> findUpcomingPartiesByUserId(@Param("userId") Long userId);
+
 
 
     List<Party>findByOrganizerId(Long id);

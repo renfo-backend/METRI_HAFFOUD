@@ -139,6 +139,17 @@ public class PartyController {
         return ResponseEntity.ok(updatedParty);
     }
 
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<PartyDTO>> getUpcomingParties(@RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String token = authorizationHeader.substring(7).trim();
+        List<PartyDTO> upcomingParties = partyService.getUpcomingParties(token);
+        return ResponseEntity.ok(upcomingParties);
+    }
+
 
 //    @GetMapping("/getAllParties")
 //    public List<PartyDTO> getAllParties(@RequestHeader("Authorization") String authorizationHeader) {

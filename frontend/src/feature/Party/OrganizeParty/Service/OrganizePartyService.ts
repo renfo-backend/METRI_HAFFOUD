@@ -104,3 +104,8 @@ export const updateParty = async (id: number, partyData: any) => {
     );
     return response.data;
 }
+
+export const getUpcomingParties = async (): Promise<PartyEntityType[]> => {
+    const response = await axios.get("http://localhost:8080/party/upcoming", config);
+    return response.data as PartyEntityType[];
+};
